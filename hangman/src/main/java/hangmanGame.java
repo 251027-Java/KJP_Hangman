@@ -5,6 +5,7 @@ public class hangmanGame {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         int mistakes = 0;
+        int maxMistakes = 5;
         boolean[] guesses = new boolean[26];
         String word = null;
         int correct = 0;
@@ -22,14 +23,33 @@ public class hangmanGame {
         }
 
         // gamestate
-        while (correct > word.length() && mistakes < 5) {
+        while (correct > word.length() && mistakes < maxMistakes) {
 
             // loop to check user input for char
             char userGuess; // user input
 
             // loop for guess
+            guesses[userGuess - 'A'] = true;
+
+            boolean letterExists = false;
+            for (int i = 0; i < word.length(); i++){
+                if (word.charAt(i) == userGuess){
+                    correct++;
+                    letterExists = true;
+                }
+            }
+
             // if its correct
+            if (letterExists){
+                if (correct == word.length()) gameWon = true;
+            }
             // if its incorrect
+            else {
+                mistakes++;
+                if (mistakes >= maxMistakes) gameWon = false;
+            }
+
+            display(guesses, word);
         }
         // while loop w bool gameCheck to end it. in loop gameCheck is changed during max mistakes and when user won
         // exactly one character inputs, has to be letters, try catch it
@@ -42,10 +62,13 @@ public class hangmanGame {
             // once tracked total reaches the number of letters in the word-to-guess, game is done, user wins
 
         // statement for win or lose
+        if (gameWon) IO.println("You win!");
+        else IO.println("You lose.");
+
         input.close();
     }
 
-    public void display (boolean[] guesses, String word) {
+    public static void display (boolean[] guesses, String word) {
         // display function
         // for loop print "_ " or "charArray[i] + " "" depending on if user guessed that value
         // for loop size 26 array but only print vals that are true on one line "array[i] + " "

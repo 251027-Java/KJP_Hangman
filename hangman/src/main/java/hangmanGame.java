@@ -32,27 +32,27 @@ public class hangmanGame {
             IO.println("Word contained characters outside of alphabet. try again.");
         } while (!word.matches("[a-zA-Z]+"));
 
-        word.toUpperCase();
+        word = word.toUpperCase();
 
         // gamestate
-        while (correct > word.length() && mistakes < maxMistakes) {
+        while (correct < word.length() && mistakes < maxMistakes) {
 
             // loop to check user input for char
-            String userGuess; // user input
+            char userGuess; // user input
+            String userIn;
 
             IO.println("Please enter a char for your guess:");
 
             // checks the guess fits criteria first
             do {
-                userGuess = input.nextLine();
+                userIn = input.nextLine();
 
-                if(userGuess.length() == 1 && Character.isLetter(userGuess.charAt(0))) {
-                    IO.println("The word you entered is " + word);
-
-                    int temp = (int) userGuess.charAt(0);
-
-                    if (guesses[temp - 65]) break;
+                if(userIn.length() == 1 && Character.isLetter(userIn.charAt(0))) {
+                    userIn = userIn.toUpperCase();
+                    int temp = (int) userIn.charAt(0);
+                    if (!guesses[temp - 65]) break;
                     else {
+
                         System.out.println("The word you entered is already guessed. try again.");
                         continue;
                     }
@@ -60,6 +60,8 @@ public class hangmanGame {
 
                 IO.println("Your guess contained characters outside of alphabet or it was multiple characters. try again.");
             } while (true);
+            userGuess = userIn.charAt(0);
+
 
             // loop for guess
             guesses[userGuess - 'A'] = true;

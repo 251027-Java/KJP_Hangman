@@ -68,7 +68,6 @@ public class hangmanGame {
         input.close();
     }
 
-
     public static void display(boolean[] guesses, String word) {
         // display function
         // for loop print "_ " or "charArray[i] + " "" depending on if user guessed that value

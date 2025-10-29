@@ -59,7 +59,7 @@ public class hangmanGame {
         // user_is_done - loop through the string and check all the characters.
         // see if all characters were guessed. true in the boolean array
         // OR: track total number of correct letters in the word-to-guess that match a user's guess
-            // once tracked total reaches the number of letters in the word-to-guess, game is done, user wins
+        // once tracked total reaches the number of letters in the word-to-guess, game is done, user wins
 
         // statement for win or lose
         if (gameWon) IO.println("You win!");
@@ -68,11 +68,34 @@ public class hangmanGame {
         input.close();
     }
 
-    public static void display (boolean[] guesses, String word) {
+    public static void display(boolean[] guesses, String word) {
         // display function
         // for loop print "_ " or "charArray[i] + " "" depending on if user guessed that value
         // for loop size 26 array but only print vals that are true on one line "array[i] + " "
+        String upper = word.toUpperCase();
+        StringBuilder result = new StringBuilder("👍 ");
+
+        for (int i = 0; i < upper.length(); i++) {
+            char cur = upper.charAt(i);
+            int index = cur - 'A';
+
+            if (guesses[index]) {
+                result.append(cur).append(' ');
+            } else {
+                result.append("_ ");
+            }
+        }
+
+        StringBuilder incorrectGuesses = new StringBuilder("❌ ");
+
+        for (int i = 0; i < guesses.length; i++) {
+            char letter = (char) ('A' + i);
+
+            if (guesses[i] && upper.indexOf(letter) == -1) {
+                incorrectGuesses.append(letter);
+            }
+        }
+
+        System.out.println(result.toString().trim() + "\n" + incorrectGuesses);
     }
-
-
 }

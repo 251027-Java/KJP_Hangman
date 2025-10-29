@@ -24,7 +24,7 @@ public class hangmanGame {
         do {
             word = input.nextLine();
 
-            if(word.matches("[a-zA-Z]+")) {
+            if (word.matches("[a-zA-Z]+")) {
                 IO.println("The word you entered is " + word);
                 break;
             }
@@ -47,7 +47,7 @@ public class hangmanGame {
             do {
                 userIn = input.nextLine();
 
-                if(userIn.length() == 1 && Character.isLetter(userIn.charAt(0))) {
+                if (userIn.length() == 1 && Character.isLetter(userIn.charAt(0))) {
                     userIn = userIn.toUpperCase();
                     int temp = (int) userIn.charAt(0);
                     if (!guesses[temp - 65]) break;
@@ -67,15 +67,15 @@ public class hangmanGame {
             guesses[userGuess - 'A'] = true;
 
             boolean letterExists = false;
-            for (int i = 0; i < word.length(); i++){
-                if (word.charAt(i) == userGuess){
+            for (int i = 0; i < word.length(); i++) {
+                if (word.charAt(i) == userGuess) {
                     correct++;
                     letterExists = true;
                 }
             }
 
             // if its correct
-            if (letterExists){
+            if (letterExists) {
                 if (correct == word.length()) gameWon = true;
             }
             // if its incorrect
@@ -84,7 +84,7 @@ public class hangmanGame {
                 if (mistakes >= maxMistakes) gameWon = false;
             }
 
-            display(guesses, word);
+            display(guesses, word, maxMistakes);
         }
         // while loop w bool gameCheck to end it. in loop gameCheck is changed during max mistakes and when user won
         // exactly one character inputs, has to be letters, try catch it
@@ -103,7 +103,8 @@ public class hangmanGame {
         input.close();
     }
 
-    public static void display(boolean[] guesses, String word) {
+
+    public static void display(boolean[] guesses, String word, int maxMistakes) {
         // display function
         // for loop print "_ " or "charArray[i] + " "" depending on if user guessed that value
         // for loop size 26 array but only print vals that are true on one line "array[i] + " "
@@ -121,16 +122,19 @@ public class hangmanGame {
             }
         }
 
-        StringBuilder incorrectGuesses = new StringBuilder("❌ ");
+        StringBuilder incorrectGuesses = new StringBuilder();
+        int incorrect = 0;
 
         for (int i = 0; i < guesses.length; i++) {
             char letter = (char) ('A' + i);
 
             if (guesses[i] && upper.indexOf(letter) == -1) {
                 incorrectGuesses.append(letter);
+                incorrect++;
             }
         }
 
-        System.out.println(result.toString().trim() + "\n" + incorrectGuesses);
+        String incorrectLine = String.format("❌ %d/%d %s", incorrect, maxMistakes, incorrectGuesses);
+        System.out.println(result.toString().trim() + "\n" + incorrectLine);
     }
 }

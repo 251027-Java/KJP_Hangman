@@ -25,6 +25,7 @@ public class hangmanGame {
         while (correct > word.length() && mistakes < 5) {
 
             // loop to check user input for char
+            char userGuess; // user input
 
             // loop for guess
             // if its correct

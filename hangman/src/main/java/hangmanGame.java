@@ -12,21 +12,56 @@ public class hangmanGame {
         boolean gameState = true;
         boolean gameWon = false;
 
+
         // user input for the hangman word string
         // focus on word so exclude numbers special characters spaces
         // bool array (size 26) - represents letters user has guessed. arr[0] = true means user guessed 'a'
         // number of mistakes = 5
 
         // user input loop for word
-        while (word == null) {
+        IO.println("Type in a word for the player to guess:");
 
-        }
+        do {
+            word = input.nextLine();
+
+            if (word.matches("[a-zA-Z]+")) {
+                IO.println("The word you entered is " + word);
+                break;
+            }
+
+            IO.println("Word contained characters outside of alphabet. try again.");
+        } while (!word.matches("[a-zA-Z]+"));
+
+        word = word.toUpperCase();
 
         // gamestate
-        while (correct > word.length() && mistakes < maxMistakes) {
+        while (correct < word.length() && mistakes < maxMistakes) {
 
             // loop to check user input for char
             char userGuess; // user input
+            String userIn;
+
+            IO.println("Please enter a char for your guess:");
+
+            // checks the guess fits criteria first
+            do {
+                userIn = input.nextLine();
+
+                if (userIn.length() == 1 && Character.isLetter(userIn.charAt(0))) {
+                    userIn = userIn.toUpperCase();
+                    int temp = (int) userIn.charAt(0);
+                    if (!guesses[temp - 65]) break;
+                    else {
+
+                        System.out.println("The word you entered is already guessed. try again.");
+                        continue;
+                    }
+                }
+
+                IO.println("Your guess contained characters outside of alphabet or it was multiple characters. try again.");
+            } while (true);
+            userGuess = userIn.charAt(0);
+
 
             // loop for guess
             guesses[userGuess - 'A'] = true;
